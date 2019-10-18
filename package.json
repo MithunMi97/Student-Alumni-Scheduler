@@ -1,0 +1,36 @@
+{
+  "name": "scheduler",
+  "version": "1.0.0",
+  "description": "A simple student-alumni scheduler app.",
+  "main": "app.js",
+  "scripts": {
+    "start": "nodemon app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "peacerebel",
+  "license": "GPL-3.0",
+  "dependencies": {
+    "bcryptjs": "*",
+    "body-parser": "^1.19.0",
+    "connect-flash": "*",
+    "cookie-parser": "^1.4.1",
+    "ejs": "^2.7.1",
+    "ejs-locals": "^1.0.2",
+    "express": "^4.17.1",
+    "express-handlebars": "*",
+    "express-html": "^1.0.1",
+    "express-messages": "*",
+    "express-session": "*",
+    "express-validator": "*",
+    "fs": "0.0.1-security",
+    "moment": "^2.22.2",
+    "mongodb": "^3.3.2",
+    "mongoose": "^5.7.5",
+    "morgan": "^1.9.0",
+    "nodemod": "^1.5.19",
+    "nodemon": "^1.19.4",
+    "passport": "*",
+    "passport-http": "*",
+    "passport-local": "*"
+  }
+}
