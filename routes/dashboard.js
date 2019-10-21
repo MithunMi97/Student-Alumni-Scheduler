@@ -19,7 +19,7 @@ router.get('/', ensureAuthenticated, function(req, res){
         res.render('pages/dashboard/alumni', { slots: docs});
       }
       else {
-        console.log('Error finding in slots: ' + JSON.stringify(err, undefined, 2))
+        console.log('Error finding slots: ' + JSON.stringify(err, undefined, 2))
       }
     });
   }
@@ -41,7 +41,7 @@ router.get('/', ensureAuthenticated, function(req, res){
         });
       }
       else{
-        console.log("Find the Slot: Error: " + JSON.stringify(err));
+        console.log("Find Slot: Error: " + JSON.stringify(err));
       }
     });
   }
@@ -51,6 +51,7 @@ function ensureAuthenticated(req, res, next){
 	if(req.isAuthenticated()){
 		return next();
 	} else {
+		//req.flash('error_msg','You are not logged in');
 		res.redirect('/users/login');
 	}
 }

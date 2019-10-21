@@ -7,23 +7,22 @@ const expressValidator = require('express-validator');
 const flash = require('connect-flash');
 const session = require('express-session');
 const passport = require('passport');
-const mongoose = require("mongoose");
 const morgan = require('morgan');
 const routes = require('./routes/index');
 const users = require('./routes/users');
 const dashboard = require('./routes/dashboard');
 const slots = require('./routes/slots');
-
+const mongoose = require('mongoose');
+const dotenv = require('dotenv');
 
 // Init App
 const app = express();
 
 //db
-mongoose.connect('mongodb://localhost/snippt',{
-useNewUrlParser: true,
-useCreateIndex: true,
-useUnifiedTopology: true})
-.then(() => console.log("DB Connected"));
+dotenv.config();
+mongoose.connect(  process.env.MONGO_URI,  {useNewUrlParser: true,useUnifiedTopology: true})
+.then(() => console.log('DB Connected'))
+mongoose.connection.on('error', err => {  console.log(`DB connection error: ${err.message}`)});
 
 // View Engine
 app.set('views', path.join(__dirname, 'views'));

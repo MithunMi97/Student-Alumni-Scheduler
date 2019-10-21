@@ -20,15 +20,15 @@ router.post('/', ensureAuthenticated, function(req, res){
   if(req.user.permission == 'student'){
 
     if(req.user.slots_booked < 2){
-      const date = req.body.date;
+      var date = req.body.date;
 
       if( (moment().add(7, 'days').format('YYYY-MM-DD') >= date) &&
       moment().add(1, 'days').format('YYYY-MM-DD') <= date){
-        const slot = req.body.slot;
-        const alumni = req.body.alumni;
-        const student = req.user.username;
-
-        const slots_booked = req.user.slots_booked + 1;
+        var slot = req.body.slot;
+        var alumni = req.body.alumni;
+        var student = req.user.username;
+        var phonenumber = req.user.phonenumber;
+        var slots_booked = req.user.slots_booked + 1;
 
         Slot.pendingSlots(student, function(err, docs){
           if(!err){
@@ -41,19 +41,23 @@ router.post('/', ensureAuthenticated, function(req, res){
               // If there's no slot booked by this 'student' that 'alumnus' did not confirm.
               Slot.allPendingSlots(function(err, docs){
                 if(!err){
-                  const flag = 0;
+                  var flag = 0;
                   for(const i = 0; i < docs.length; i++){
                     if((docs[i].date == date) && (docs[i].slot == slot) && (docs[i].alumni == alumni)){
                       flag = 1;
+                      //console.log('Here: allpendingSlots', docs);
                     }
                   }
                   if(!flag){
-                    const newSlot = new Slot({
+                    var newSlot = new Slot({
                       date: date,
                       slot: slot,
                       alumni: alumni,
-                      student: student
+                      student: student,
+                      phonenumber:phonenumber
                     });
+
+                    //console.log('Slot: ' + JSON.stringify(newSlot));
 
                     newSlot.save(function(err){
                       if(!err){
@@ -105,7 +109,7 @@ router.post('/', ensureAuthenticated, function(req, res){
 
 router.post('/reject', ensureAuthenticated, function(req, res){
   if(req.user.permission == 'alumni'){
-    const id = req.body.id;
+    var id = req.body.id;
     Slot.findByIdAndUpdate(id, { status: 'rejected', al_act: true }, function(err, docs){
       if(!err){
         res.redirect('/dashboard');
@@ -124,7 +128,7 @@ router.post('/reject', ensureAuthenticated, function(req, res){
 
 router.post('/confirm', ensureAuthenticated, function(req, res){
   if(req.user.permission == 'alumni'){
-    const id = req.body.id;
+    var id = req.body.id;
     Slot.findByIdAndUpdate(id, { status: 'confirmed', al_act: true }, function(err, docs){
       if(!err){
         res.redirect('/dashboard');

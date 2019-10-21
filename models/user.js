@@ -16,6 +16,9 @@ const UserSchema = mongoose.Schema({
 		enum: ['alumni', 'student'],
 		default: 'student'
 	},
+	password: {
+		type: String
+	},
 	slots_booked: {
 		type: Number,
 		default: 0
@@ -55,5 +58,5 @@ module.exports.getAlumni = function(callback){
 }
 
 module.exports.findByUsernameAndUpdate = function(username, callback){
-	console.log(username);
+		console.log(username);
 }

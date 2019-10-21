@@ -22,13 +22,14 @@ router.post('/register', function (req, res) {
 	const password = req.body.password;
 	const confirmpassword = req.body.confirmpassword;
 	const permission = req.body.permission;
+	
 
 	// Validation
 	req.checkBody('username', 'Username is required').notEmpty();
 	req.checkBody('password', 'Password is required').notEmpty();
 	req.checkBody('confirmpassword', 'Passwords do not match').equals(req.body.password);
 	req.checkBody('permission', 'Invalid user permission').isIn(User.schema.path('permission').enumValues)
-
+	
 	const errors = req.validationErrors();
 
 	if (errors) {
@@ -65,7 +66,7 @@ passport.use(new LocalStrategy(
 		User.getUserByUsername(username, function (err, user) {
 			if (err) throw err;
 			if (!user) {
-				return done(null, false, { message: 'Invalid User' });
+				return done(null, false, { message: 'Unknown User' });
 			}
 
 			User.comparePassword(password, user.password, function (err, isMatch) {

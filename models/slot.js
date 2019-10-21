@@ -1,15 +1,16 @@
-const mongoose = require('mongoose');
-const ObjectId = mongoose.Schema.ObjectId;
+var mongoose = require('mongoose');
+var ObjectId = mongoose.Schema.ObjectId;
 
-const SlotSchema = mongoose.Schema({
+var SlotSchema = mongoose.Schema({
   slot:{
-    type:String
+    type:String,
+    enum: ['01:00pm-02:00pm', '04:00pm-05:00pm', '06:00pm-07:00pm']
   },
   date: {
     type: String
   },
   alumni:{
-    type: String
+    type: String,
   },
   student:{
     type: String
@@ -28,27 +29,27 @@ const SlotSchema = mongoose.Schema({
   }
 });
 
-const Slot = module.exports = mongoose.model('Slot', SlotSchema);
+var Slot = module.exports = mongoose.model('Slot', SlotSchema);
 
 // Get all slots booked to an alumnus.
 module.exports.getAlumniSlots = function(id, callback){
-  const query = {alumni: id};
+  var query = {alumni: id};
   Slot.find(query, callback);
 }
 
 // Get all slots booked by a student.
 module.exports.getUserSlots = function(username, callback){
-  const query = {student: username};
+  var query = {student: username};
   Slot.find(query, callback);
 }
 
 // Get all slots, that are still pending, booked by a student.
 module.exports.pendingSlots = function(username, callback){
-  const query = {student: username, status: 'unconfirmed'};
+  var query = {student: username, status: 'unconfirmed'};
   Slot.find(query, callback);
 }
 
 module.exports.allPendingSlots = function(callback){
-  const query = { status: {"$in": ['unconfirmed', 'confirmed']}};
+  var query = { status: {"$in": ['unconfirmed', 'confirmed']}};
   Slot.find(query, callback);
 }
